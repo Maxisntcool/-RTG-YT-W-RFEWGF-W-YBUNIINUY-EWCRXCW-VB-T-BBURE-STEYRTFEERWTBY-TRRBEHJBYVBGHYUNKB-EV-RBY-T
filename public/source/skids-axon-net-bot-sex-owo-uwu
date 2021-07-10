@@ -993,14 +993,14 @@ for _,p in pairs(Players:players()) do
 end
 HatType = {
 	["Proto"] = {
-		require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 4997204476,5619010531,6076661449,4545298365,928828560")
+		"-gh 4997204476,5619010531,6076661449,4545298365,928828560"
 	},
 	["Crystal"] = {
-		require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 5875859121,5875863133,7062200002,5875865466,6036768896")	
+		"-gh 5875859121,5875863133,7062200002,5875865466,6036768896"
 	}
 }
 function SetHats(type)
-HatType[type]()
+	require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire(HatType[type])
 end
 SetHats(Settings.AccessoryStyle)
 game.Players.LocalPlayer.CharacterAdded:Connect(function()SetHats(Settings.AccessoryStyle)end)
