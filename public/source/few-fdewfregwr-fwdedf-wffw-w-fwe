@@ -1,0 +1,993 @@
+--Maxmin bot exploit version
+--Sources are from my other scripts
+--credits to m,ysel;f lok
+local Players = game:GetService("Players")
+--local Http = game:GetService("HttpService")
+local RunService = game:GetService("RunService")
+local Maxxy = "https://maxxy.ga/source/"
+local GlobalBans = "ban.json"
+local Whitelist = "wl.json"
+local MChildren = {}
+
+--Functions
+function GetPlayer(name)
+	for _,player in next, Players:players() do
+		if(player.Name:lower()==name:lower())then
+			return player
+		end
+	end
+end
+local S = Instance.new("Sound")
+function CreateSound(ID, PARENT, Volume, Pitch, DOESLOOP)
+	local NEWSOUND = nil
+	coroutine.resume(coroutine.create(function()
+		NEWSOUND = S:Clone()
+		NEWSOUND.Parent = PARENT
+		NEWSOUND.Volume = Volume
+		NEWSOUND.Pitch = Pitch
+		NEWSOUND.SoundId = "http://www.roblox.com/asset/?id="..ID
+		NEWSOUND:play()
+		if DOESLOOP == true then
+			NEWSOUND.Looped = true
+		else
+			repeat wait(1) until NEWSOUND.Playing == false or NEWSOUND.Parent ~= PARENT
+			NEWSOUND:remove()
+		end
+	end))
+	return NEWSOUND
+end
+local HB = RunService.Heartbeat
+function Delta(number,wt) 
+	local acc = 0
+	if number == 0 or number == nil then HB:Wait() return end
+	if wt == "frames" then for i = 0,number do HB:Wait() end return end
+	while number > acc do
+		acc += HB:Wait()
+	end
+end
+local counter = 0
+local num = 1
+if not _G.colorSequences then
+	_G.colorSequences = {}
+	while true do game:GetService("RunService").Heartbeat:wait()
+		local sequence = {}
+		for i = 0, num do
+			table.insert(
+				sequence, i + 1, ColorSequenceKeypoint.new(i / num, Color3.fromRGB(
+					127 * math.sin(0.52 * i + counter) + 128,
+					127 * math.sin(0.52 * i + 2 * math.pi / 3 + counter) + 128,
+					127 * math.sin(0.52 * i + 4 * math.pi / 3 + counter) + 128)
+				)
+			)
+		end
+		local new = ColorSequence.new(sequence)
+		if #_G.colorSequences > 0 then
+			if new == _G.colorSequences[1] then
+				break
+			end
+		end
+		table.insert(_G.colorSequences, new)
+		counter = counter + 0.0785
+		if (counter >= 6.28) then
+			counter = 0
+		end
+	end
+end
+function Notification(parent,text, overwrite, response)
+	spawn(function()
+		local clickfunction = response or function() return end
+		local override = overwrite or false
+		if text == _G.dAAcG3fvBqVoPzVnAFk and override == false then return end
+		spawn(function()
+			for i,v in pairs(parent:GetChildren())do
+				spawn(function()
+					if v.Name == "MNotify" then -- deleting here
+						pcall(function()
+							v.ImageButton.ZIndex = 58; v.ImageButton.TextLabel.ZIndex = 59
+							v.ImageButton:TweenPosition(UDim2.new(0.01, 0,1, 0), "Out", "Quint", .7, true)
+							game:GetService("TweenService"):Create(v.ImageButton.TextLabel,TweenInfo.new(0.8,Enum.EasingStyle.Quint,Enum.EasingDirection.Out,0,false,0), {TextTransparency = 1})
+							wait(1)
+							v:Destroy()
+						end)
+					end
+				end)
+			end
+
+			_G.dAAcG3fvBqVoPzVnAFk = text
+			local clickfunction = response or function() return end
+			local function CreateInstance(cls,props)	local inst = Instance.new(cls)	for i,v in pairs(props) do	inst[i] = v	end	return inst	end
+			local MNotify = CreateInstance('ScreenGui',{DisplayOrder=2147483647,Enabled=true,ResetOnSpawn=false,Name='MNotify', Parent=parent})
+			local ImageButton = CreateInstance('ImageButton',{Image='rbxassetid://1051186612',ImageColor3=Color3.new(0.129412, 0.129412, 0.129412),ImageRectOffset=Vector2.new(0, 0),ImageRectSize=Vector2.new(0, 0),ImageTransparency=0,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(20, 20, 20, 20),AutoButtonColor=true,Modal=false,Selected=false,Style=Enum.ButtonStyle.Custom,Active=true,AnchorPoint=Vector2.new(0, 0),BackgroundColor3=Color3.new(1, 1, 1),BackgroundTransparency=1,BorderColor3=Color3.new(0.105882, 0.164706, 0.207843),BorderSizePixel=1,ClipsDescendants=false,Draggable=false,Position=UDim2.new(0.00999999978, 0, 1, 0),Rotation=0,Selectable=true,Size=UDim2.new(0, 234, 0, 40),SizeConstraint=Enum.SizeConstraint.RelativeXY,Visible=true,ZIndex=60,Name='ImageButton',Parent = MNotify})
+			local TextLabel = CreateInstance('TextLabel',{Font=Enum.Font.SourceSansLight,FontSize=Enum.FontSize.Size24,Text=text,TextColor3=Color3.new(0.807843, 0.807843, 0.807843),TextScaled=false,TextSize=24,TextStrokeColor3=Color3.new(0, 0, 0),TextStrokeTransparency=1,TextTransparency=0,TextWrapped=false,TextXAlignment=Enum.TextXAlignment.Center,TextYAlignment=Enum.TextYAlignment.Center,Active=false,AnchorPoint=Vector2.new(0, 0),BackgroundColor3=Color3.new(1, 1, 1),BackgroundTransparency=1,BorderColor3=Color3.new(0.105882, 0.164706, 0.207843),BorderSizePixel=1,ClipsDescendants=false,Draggable=false,Position=UDim2.new(0.132478639, 0, 0, 0),Rotation=0,Selectable=false,Size=UDim2.new(0, 174, 0, 40),SizeConstraint=Enum.SizeConstraint.RelativeXY,Visible=true,ZIndex=61,Name='TextLabel',Parent = ImageButton})
+			local GradListUI = Instance.new("UIGradient",ImageButton) 
+			local UIListLayout = CreateInstance('UIListLayout', {Padding = UDim.new(0, 0), FillDirection = Enum.FillDirection.Vertical, HorizontalAlignment = Enum.HorizontalAlignment.Center, SortOrder = Enum.SortOrder.Name, VerticalAlignment = Enum.VerticalAlignment.Top, Name = 'UIListLayout', Parent = ImageButton })
+			-- not setting text ^	
+			local value = 1
+			CreateSound(4835664238, MNotify, 0.1, 1, false)
+
+			if string.len(text) <= 49 then
+				ImageButton.Size = UDim2.new(0, game:GetService("TextService"):GetTextSize(text, 24, Enum.Font.SourceSansLight, Vector2.new(500,900)).X+57, 0, 40)
+			elseif string.len(text) > 49 then
+				value = math.ceil(string.len(string.sub(text, 49))/9)
+				ImageButton.Size = UDim2.new(0, game:GetService("TextService"):GetTextSize(text, 24, Enum.Font.SourceSansLight, Vector2.new(500+value*100,900)).X+57, 0, 40)
+			end
+			ImageButton:TweenPosition(UDim2.new(0.01, 0,1, -60), "Out", "Quint", .7, true)
+			spawn(function()
+				while ImageButton.ZIndex==60 do wait()
+					GradListUI.Color = _G.colorSequences[math.ceil((math.fmod(tick()/5, 1))*80)]
+				end
+			end)
+			spawn(function()
+				Delta(6)
+				pcall(function()
+					ImageButton.ZIndex = 58; TextLabel.ZIndex = 59
+					ImageButton:TweenPosition(UDim2.new(0.01, 0,1, 0), "Out", "Quint", .7, true)
+					_G.dAAcG3fvBqVoPzVnAFk = ""
+					Delta(1)
+					game:GetService("Debris"):AddItem(MNotify,1)
+
+				end)
+			end)
+			ImageButton.MouseButton1Up:Connect(function()
+				if response == nil then return end
+				spawn(function()
+					pcall(function()
+						ImageButton.ZIndex = 58; TextLabel.ZIndex = 59
+						ImageButton:TweenPosition(UDim2.new(0.01, 0,1, 0), "Out", "Quint", .7, true)
+						_G.dAAcG3fvBqVoPzVnAFk = ""
+						Delta(1)
+						game:GetService("Debris"):AddItem(MNotify,1)
+					end)
+				end)
+				clickfunction()
+			end)	
+		end)
+	end)
+end
+function Warning(text,parent, overwrite, response)
+	spawn(function()
+		local clickfunction = response or function() return end
+		local override = overwrite or false
+		if text == _G.dAAcG3fvBqVoPzVnAFk and override == false then return end
+		spawn(function()
+			for i,v in pairs(parent:GetChildren())do
+				spawn(function()
+					if v.Name == "MWarning" then -- deleting here
+						pcall(function()
+							v.ImageButton.ZIndex = 58; v.ImageButton.TextLabel.ZIndex = 59
+							v.ImageButton:TweenPosition(UDim2.new(0.01, 0,1, 0), "Out", "Quint", .7, true)
+							game:GetService("TweenService"):Create(v.ImageButton.TextLabel,TweenInfo.new(0.8,Enum.EasingStyle.Quint,Enum.EasingDirection.Out,0,false,0), {TextTransparency = 1})
+							wait(1)
+							v:Destroy()
+						end)
+					end
+				end)
+			end
+
+			_G.dAAcG3fvBqVoPzVnAFk = text
+			local clickfunction = response or function() return end
+			local function CreateInstance(cls,props)	local inst = Instance.new(cls)	for i,v in pairs(props) do	inst[i] = v	end	return inst	end
+			local MWarning = CreateInstance('ScreenGui',{DisplayOrder=2147483647,Enabled=true,ResetOnSpawn=false,Name='MWarning', Parent=parent})
+			local ImageButton = CreateInstance('ImageButton',{Image='rbxassetid://1051186612',ImageColor3=Color3.new(0.129412, 0.129412, 0.129412),ImageRectOffset=Vector2.new(0, 0),ImageRectSize=Vector2.new(0, 0),ImageTransparency=0,ScaleType=Enum.ScaleType.Slice,SliceCenter=Rect.new(20, 20, 20, 20),AutoButtonColor=true,Modal=false,Selected=false,Style=Enum.ButtonStyle.Custom,Active=true,AnchorPoint=Vector2.new(0, 0),BackgroundColor3=Color3.new(1, 1, 1),BackgroundTransparency=1,BorderColor3=Color3.new(0.105882, 0.164706, 0.207843),BorderSizePixel=1,ClipsDescendants=false,Draggable=false,Position=UDim2.new(0.00999999978, 0, 1, 0),Rotation=0,Selectable=true,Size=UDim2.new(0, 234, 0, 40),SizeConstraint=Enum.SizeConstraint.RelativeXY,Visible=true,ZIndex=60,Name='ImageButton',Parent = MWarning})
+			local TextLabel = CreateInstance('TextLabel',{Font=Enum.Font.SourceSansLight,FontSize=Enum.FontSize.Size24,Text=text,TextColor3=Color3.new(0.807843, 0.807843, 0.807843),TextScaled=false,TextSize=24,TextStrokeColor3=Color3.new(0, 0, 0),TextStrokeTransparency=1,TextTransparency=0,TextWrapped=false,TextXAlignment=Enum.TextXAlignment.Center,TextYAlignment=Enum.TextYAlignment.Center,Active=false,AnchorPoint=Vector2.new(0, 0),BackgroundColor3=Color3.new(1, 1, 1),BackgroundTransparency=1,BorderColor3=Color3.new(0.105882, 0.164706, 0.207843),BorderSizePixel=1,ClipsDescendants=false,Draggable=false,Position=UDim2.new(0.132478639, 0, 0, 0),Rotation=0,Selectable=false,Size=UDim2.new(0, 174, 0, 40),SizeConstraint=Enum.SizeConstraint.RelativeXY,Visible=true,ZIndex=61,Name='TextLabel',Parent = ImageButton})
+			local GradListUI = Instance.new("UIGradient",ImageButton) 
+			local UIListLayout = CreateInstance('UIListLayout', {Padding = UDim.new(0, 0), FillDirection = Enum.FillDirection.Vertical, HorizontalAlignment = Enum.HorizontalAlignment.Center, SortOrder = Enum.SortOrder.Name, VerticalAlignment = Enum.VerticalAlignment.Top, Name = 'UIListLayout', Parent = ImageButton })
+			-- not setting text ^	
+			local value = 1
+			CreateSound(4835664238, MWarning, 0.1, 1.3, false)
+
+			if string.len(text) <= 49 then
+				ImageButton.Size = UDim2.new(0, game:GetService("TextService"):GetTextSize(text, 24, Enum.Font.SourceSansLight, Vector2.new(500,900)).X+57, 0, 40)
+			elseif string.len(text) > 49 then
+				value = math.ceil(string.len(string.sub(text, 49))/9)
+				ImageButton.Size = UDim2.new(0, game:GetService("TextService"):GetTextSize(text, 24, Enum.Font.SourceSansLight, Vector2.new(500+value*100,900)).X+57, 0, 40)
+			end
+			ImageButton:TweenPosition(UDim2.new(0.01, 0,1, -60), "Out", "Quint", .7, true)
+			spawn(function()
+				while ImageButton.ZIndex==60 do wait()
+					GradListUI.Color = _G.colorSequences[math.ceil((math.fmod(tick()/5, 1))*80)]
+				end
+			end)
+			spawn(function()
+				Delta(6)
+				pcall(function()
+					ImageButton.ZIndex = 58; TextLabel.ZIndex = 59
+					ImageButton:TweenPosition(UDim2.new(0.01, 0,1, 0), "Out", "Quint", .7, true)
+					_G.dAAcG3fvBqVoPzVnAFk = ""
+					Delta(1)
+					game:GetService("Debris"):AddItem(MWarning,1)
+
+				end)
+			end)
+			ImageButton.MouseButton1Up:Connect(function()
+				if response == nil then return end
+				spawn(function()
+					pcall(function()
+						ImageButton.ZIndex = 58; TextLabel.ZIndex = 59
+						ImageButton:TweenPosition(UDim2.new(0.01, 0,1, 0), "Out", "Quint", .7, true)
+						_G.dAAcG3fvBqVoPzVnAFk = ""
+						Delta(1)
+						game:GetService("Debris"):AddItem(MWarning,1)
+					end)
+				end)
+				clickfunction()
+			end)	
+		end)
+	end)
+end
+function getPlayer(user,str)
+	local found = {}
+	if string.lower(string.sub(str,1,5)) == "team:" then
+		local target = string.lower(string.sub(str,6,#str))
+		for i,v in pairs(game:GetService("Teams"):GetChildren()) do
+			if string.lower(string.sub(v.Name,1,#target)) == target then
+				for i,obj in pairs(game:GetService("Players"):GetChildren()) do
+					if obj.Team == v then
+						table.insert(found,obj)
+					end
+				end
+			end
+		end
+	elseif string.lower(str) == "random" then
+		table.insert(found,game:GetService("Players"):GetChildren()[math.random(1,#game:GetService("Players"):GetChildren())])
+	elseif string.lower(str) == "all" then
+		for i,v in pairs(game:GetService("Players"):GetChildren()) do
+			table.insert(found,v)
+		end
+	elseif string.lower(str) == "others" then
+		for i,v in pairs(game:GetService("Players"):GetChildren()) do
+			if v ~= user then
+				table.insert(found,v)
+			end
+		end
+	elseif string.lower(str) == "me" or string.lower(str) == ""  then
+		table.insert(found,user)
+	else
+		for i,v in pairs(game:GetService("Players"):GetChildren()) do
+			if string.lower(string.sub(v.Name,1,#str)) == string.lower(str) then
+				table.insert(found,v)
+			end
+		end
+	end
+	return found
+end
+
+local UserRank = 1
+local answersforball = {
+	"Don't count on it",
+	"It is certain",
+	"It is decidedly so",
+	"As I see it, yes",
+	"Better not tell you now",
+	"Cannot predict now",
+	"Concentrate and ask again",
+	"Ask again later",
+	"Very doubtful",
+	"Outlook good",
+	"lol no",
+	"My reply is no",
+	"My sources say no",
+	"lol yes",
+	"Maybe",
+	"Dont ask me",
+	"I can not decide"
+
+}
+
+--cmdx table of emotes
+animations = {
+	Agree = 4841397952;
+	Disagree = 4841401869;
+	["Power Blast"] = 4841403964;
+	Happy = 4841405708;
+	Sad = 4841407203;
+	["Bunny Hop"] = 4641985101;
+	["Peanut Butter Jelly Dance"] = 4406555273;
+	["Around Town"] = 3303391864;
+	["Top Rock"] = 3361276673;
+	["Jumping Wave"] = 4940564896;
+	["Keeping Time"] = 4555808220;
+	Fashionable = 3333331310;
+	Robot = 3338025566;
+	Twirl = 3334968680;
+	Jacks = 3338066331;
+	TPose = 3338010159;
+	Shy = 3337978742;
+	Monkey = 3333499508;
+	["Borock's Rage"] = 3236842542;
+	["Ud'zal's Summoning"] = 3303161675;
+	["Hype Dance"] = 3695333486;
+	Godlike = 3337994105;
+	Swoosh = 3361481910;
+	Sneaky = 3334424322;
+	["Side to Side"] = 3333136415;
+	Greatest = 3338042785;
+	Louder = 3338083565;
+	Celebrate = 3338097973;
+	Haha = 3337966527;
+	["Get Out"] = 3333272779;
+	Tree = 4049551434;
+	Fishing = 3334832150;
+	["Fast Hands"] = 4265701731;
+	Y = 4349285876;
+	Zombie = 4210116953;
+	["Baby Dance"] = 4265725525;
+	["Line Dance"] = 4049037604;
+	Dizzy = 3361426436;
+	Shuffle = 4349242221;
+	["Dorky Dance"] = 4212455378;
+	BodyBuilder = 3333387824;
+	Idol = 4101966434;
+	["Fancy Feet"] = 3333432454;
+	Curtsy = 4555816777;
+	["Air Dance"] = 4555782893;
+	["Chicken Dance"] = 4841399916;
+	Disagree = 4841401869;
+	Sleep = 4686925579;
+	["Hero Landing"] = 5104344710;
+	Confused = 4940561610;
+	Cower = 4940563117;
+	Tantrum = 5104341999;
+	Bored = 5230599789;
+	Beckon = 5230598276;
+	Hello = 3344650532;
+	Salute = 3333474484;
+	Stadium = 3338055167;
+	Tilt = 3334538554;
+	Point = 3344585679;
+	Shrug = 3334392772;
+	["High Wave"] = 5915690960;
+	Applaud = 5915693819;
+	Breakdance = 5915648917;
+	["Rock On"] = 5915714366;
+	Dolphin = 5918726674;
+	["Jumping Cheer"] = 5895324424;
+	Floss = 5917459365;
+	["Country Line Dance"] = 5915712534;
+	Panini = 5915713518;
+	Holiday = 5937558680;
+	Rodeo = 5918728267;
+	["Old Town Road"] = 5937560570;
+	["Rock Star - Royal Blood"] = 6533093212;
+	["Drum Master - Royal Blood"] = 6531483720;
+	["Drum Solo - Royal Blood"] = 6532839007;
+	["Rock Guitar - Royal Blood"] = 6532134724;
+	["Take Me Under - Zara Larsson"] = 6797890377;
+	["It Ain't My Fault - Zara Larsson"] = 6797891807;
+	["Hips Poppin' - Zara Larsson"] = 6797888062;
+}
+--
+local Roles = {
+	{game.Players.LocalPlayer.Name,5},
+	{"ShotgunSupremacy",5},
+	{"JexDev_x",5},
+	{"MaxMinAutobot",5},
+	{"Fluffkini",3},
+	{"Maxisntcoo",5},
+	{"DekimSauced",5},
+	{"CatOnTheWallAlt",5}
+}
+
+local httpService = game:GetService("HttpService")
+
+local function GetTotalRAP(userId)
+	local success, msg = pcall(function()
+		local total = 0
+
+		local function CollectRAP(cursor)
+			local url = "https://inventory.rprxy.xyz/v1/users/" .. userId .. "/assets/collectibles?sortOrder=Asc&limit=100"
+
+			if cursor then
+				url = url .. "&cursor=" .. cursor
+			end
+
+			local data = game:HttpGet(url)
+			data = httpService:JSONDecode(data)
+
+			for i = 1, #data["data"] do
+				pcall(function()
+					total = total + data["data"][i]["recentAveragePrice"]
+				end)
+			end
+
+			if data["nextPageCursor"] then
+				CollectRAP(data["nextPageCursor"])
+			end
+		end
+
+		CollectRAP()
+
+		return total
+	end)
+
+	if not success then
+		return sayremote:FireServer("Too many requests, try again later.", "All")
+
+	else
+		return msg
+	end
+end
+
+function setRank(plr,number)
+	for i,v in pairs(Roles) do
+		if v[1] == plr then
+			print("Removed")
+			table.remove(Roles,i)
+		end
+	end
+	table.insert(Roles,{plr,number})
+	print("added")
+end
+Stand = false
+waving = true
+function lookAt(p,t)
+	local rp = Instance.new("RocketPropulsion")
+	rp.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
+	rp.CartoonFactor = 1
+	rp.MaxThrust = 5000
+	rp.MaxSpeed = 200
+	rp.TurnD = 10
+	rp.TurnP = 7000
+	rp.ThrustP = 5000
+	rp.Name = "OrbitalDestruction"
+	rp.Target = p.Character.HumanoidRootPart
+	rp:Fire()
+	wait(t)	
+	rp:Destroy()	
+end
+function gpD(plrTarget,murd)
+
+	if plrTarget.Character then
+		return (plrTarget.Character.HumanoidRootPart.Position-murd.HumanoidRootPart.Position).Magnitude
+	end
+end
+following = false
+local disable = Instance.new("BindableEvent",nil)
+local vdisable = Instance.new("BindableEvent",nil)
+local sdisable = Instance.new("BindableEvent",nil)
+local vibe = false
+--Commands
+local Commands = {
+	{"reset",{"kill","reset"},3,function(player,args)
+		if args[2] == nil then
+			return
+		end
+		game.Players.LocalPlayer.Character:BreakJoints()
+	end},
+	{"say",{"say","chat"},3,function(player,args)
+		local arg1 = args[2]
+		sayremote:FireServer(arg1, "All")
+
+	end},
+	{"sit",{"sit"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+		if game.Players.LocalPlayer.Character.Humanoid.Sit == true then
+			game.Players.LocalPlayer.Character.Humanoid.Sit = false
+		else
+			game.Players.LocalPlayer.Character.Humanoid.Sit=true
+
+		end
+	end},
+	{"goto",{"tp","goto"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+		for i,v in pairs(getPlayer(player,arg1)) do
+			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.Character.HumanoidRootPart.CFrame + Vector3.new(5,0,0)
+		end
+	end},
+	{"walkto",{"walkto","wt"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+		game.Players.LocalPlayer.Character.Humanoid.Jump = true
+		for i,v in pairs(getPlayer(player,arg1)) do
+			game.Players.LocalPlayer.Character.Humanoid.WalkToPoint = v.Character.HumanoidRootPart.Position - Vector3.new(5,0,0)
+		end
+	end},
+	{"follow",{"follow"},3,function(player,args)
+		if following == true then
+			following = false
+			return
+		end
+		local arg1 = string.lower(args[2])
+		game.Players.LocalPlayer.Character.Humanoid.Jump = true
+		for i,v in pairs(getPlayer(player,arg1)) do
+			following = true
+			spawn(function()
+				while following do wait()
+					game.Players.LocalPlayer.Character.Humanoid.WalkToPoint = v.Character.HumanoidRootPart.Position - Vector3.new(5,0,0)
+				end	
+			end)	
+		end
+	end},
+	{"getrank",{"getrank","grank"},1,function(player,args)
+		local arg1 = string.lower(args[2])
+		for i,v in pairs(getPlayer(player,arg1)) do
+			sayremote:FireServer(v.Name.." is rank "..getRank(v.Name), "All")
+		end
+	end},
+	{"getrap",{"getrap","rap"},1,function(player,args)
+		local arg1 = string.lower(args[2])
+		for i,v in pairs(getPlayer(player,arg1)) do
+
+
+			sayremote:FireServer(string.format("%s has %s RAP",v.Name,GetTotalRAP(game.Players:GetUserIdFromNameAsync(v.Name))), "All")
+
+
+		end
+	end},
+	{"8ball",{"8ball"},1,function(player,args)
+		local arg1 = string.lower(args[2])
+		sayremote:FireServer(answersforball[math.random(1,#answersforball)],"All")
+		lookAt(player,2)
+
+	end},
+	{"cmds",{"cmds"},1,function(player,args)
+		local arg1 = string.lower(args[2])
+		if arg1 == "" or " " or arg1 > 5 then
+			sayremote:FireServer("/w "..player.Name.." ".."Alias: cmds/(1,2,3,4,5)", "All")
+
+		else
+
+		end
+
+
+	end},
+
+	{"wave",{"wave"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+		if waving == false then
+			return
+		end
+		for i,v in pairs(getPlayer(player,arg1)) do
+			waving = false
+
+			lookAt(v,2)
+			require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/e wave")
+
+			waving = true
+		end
+
+
+	end},
+	{"vibe",{"vibe"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+		if vibe == true then
+			vdisable:Fire()
+			vibe = false
+			return
+		end
+		for i,v in pairs(getPlayer(player,arg1)) do
+			ptf = v
+			vibe = true
+			if v.Character:FindFirstChild("BoomBox") then
+				if v.Character.BoomBox.Handle:FindFirstChildWhichIsA("Sound")then
+					local s =v.Character.BoomBox.Handle:FindFirstChildWhichIsA("Sound") 
+					vdisable:Fire()
+					local connectionv = game:GetService("RunService").Heartbeat:Connect(function()
+						local Char = game.Players.LocalPlayer.Character
+						local Hum = Char:FindFirstChildOfClass("Humanoid") or Char:FindFirstChildOfClass("AnimationController")
+
+						for x,v in pairs(Hum:GetPlayingAnimationTracks()) do
+							v:AdjustSpeed(s.PlaybackLoudness/400)
+						end
+					end)
+					local anim = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(game.Players.LocalPlayer.Character.Animate.dance.Animation1)
+					anim:Play()
+					game.Players.LocalPlayer.Humanoid.PlatformStand = true
+
+					vdisable.Event:Connect(function()
+						connectionv:Disconnect()
+						game.Players.LocalPlayer.Humanoid.PlatformStand = false
+						anim:Stop()
+						local Char = game.Players.LocalPlayer.Character
+						local Hum = Char:FindFirstChildOfClass("Humanoid") or Char:FindFirstChildOfClass("AnimationController")
+
+						for x,v in pairs(Hum:GetPlayingAnimationTracks()) do
+							v:AdjustSpeed(1)
+						end
+					end)
+
+
+				else
+					sayremote:FireServer("/w "..player.Name.." ".."Player is not playing music","All")
+				end
+			else
+				sayremote:FireServer("/w "..player.Name.." ".."Player has no radio","All")
+			end
+
+
+		end
+	end},
+
+	{"fps",{"fps"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+
+		local cfps = 0
+		local c = game:GetService("RunService").RenderStepped:Connect(function() cfps = cfps+1 end)
+		wait(1)
+		sayremote:FireServer("Bot FPS: "..math.floor(cfps),"All")		c:Disconnect()
+	end},
+	{"fling",{"fling"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+
+		for i,v in pairs(getPlayer(player,arg1)) do
+			local pc = v.Character
+			local docont = true
+			pc.Humanoid.Died:Connect(function() docont = false end)
+			local ocfp = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+			local flinger = Instance.new("BodyAngularVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
+			flinger.Name = math.random()
+			flinger.AngularVelocity = Vector3.new(0,311111,0)
+			flinger.MaxTorque = Vector3.new(0,311111,0)
+			flinger.P = math.huge
+			local anmv = Instance.new("BodyVelocity", game.Players.LocalPlayer.Character.HumanoidRootPart)
+			anmv.MaxForce = Vector3.new(math.huge,math.huge,math.huge)
+			anmv.Velocity = Vector3.new(0,0,0)
+
+
+			spawn(function()
+				wait(3.5)
+				docont=false
+			end)
+
+			while docont do
+
+				pcall(function()
+					game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(CFrame.new(pc.HumanoidRootPart.Position))
+				end)
+				for i = 1, math.random(4,6) do
+					game:GetService("RunService").Heartbeat:Wait()
+				end
+
+
+			end
+
+			flinger:Destroy()
+			game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(ocfp)
+			wait(1)
+			anmv:Destroy()
+
+		end
+
+
+	end},
+	{"stand",{"stand","jojo"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+		if Stand == true then
+			return
+		end
+		for i,v in pairs(getPlayer(player,arg1)) do
+			Stand = true
+			sdisable:Fire()
+			local ocf = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+			local pc = v.Character
+
+			pc.Humanoid.Died:Connect(function()
+				sdisable:Fire()
+			end)
+			game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
+				sdisable:Fire()
+			end)
+
+			game.Players.LocalPlayer.Character.Humanoid.PlatformStand = true
+			local state = "none"
+			local bgoal = {}
+			local mgoal = {}
+			local ngoal = {}
+			local function tw(p,i,g)
+				local a = game:GetService("TweenService"):Create(p,i,g)
+				a:Play()
+			end
+			local i = TweenInfo.new(0.3,Enum.EasingStyle.Back)
+			local offset = 0			
+			local p = true
+			if player.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
+				height = 3
+			elseif player.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
+				height = 3
+
+			end
+
+			local bp = Instance.new("BodyPosition",game.Players.LocalPlayer.Character.HumanoidRootPart)
+			bp.MaxForce = Vector3.new(1000,1000,1000)	
+			local TPEV = game:GetService("RunService").Heartbeat:Connect(function()
+				local pcf =  v.Character.HumanoidRootPart.CFrame:ToWorldSpace(CFrame.new(Vector3.new(1,height+math.sin(offset),2)))
+
+				if state == "block" then
+					pcf = v.Character.HumanoidRootPart.CFrame:ToWorldSpace(CFrame.new(Vector3.new(0,0.5,-2)))
+
+				elseif state=="mid" then
+					pcf =  v.Character.HumanoidRootPart.CFrame:ToWorldSpace(CFrame.new(Vector3.new(0,2+math.sin(offset/2),2)))
+				end
+
+				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(pcf)
+				ngoal.Position = pcf.Position
+				tw(bp,i,ngoal)	
+
+				if p then
+					offset = offset + 0.01
+					if offset >= 0.45 then
+						p = false
+					end
+				else
+					offset = offset - 0.01
+					if offset <= -0.45 then
+						p = true
+					end
+				end
+			end)
+
+			local cmdAction = {}
+
+			function cmdAction.block()
+				state = "block"
+			end
+			function cmdAction.none()
+				state = "none"
+			end
+			function cmdAction.mid()
+				state = "mid"
+			end
+			function cmdAction.mudamuda()
+				state = "block"
+				tim = 2
+				if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Handle then
+					tim = 2
+					mouse1click()
+					wait(0.1)
+					mouse1click()
+
+				elseif game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool").Handle == nil then
+					if game.Players.LocalPlayer.Character:FindFirstChildOfClass("Tool") then
+						tim = 4
+						mouse1press()
+					end
+				end
+				wait(tim)
+				mouse1release()
+				state = "none"
+			end
+
+
+			local actionCmds = v.Chatted:Connect(function(msg)
+				local c = string.gsub(string.lower(msg),"%s","")
+				if cmdAction[c]  then
+					cmdAction[c]()
+				elseif  msg == "/e point" then
+					cmdAction["mudamuda"]()
+				end
+			end)
+
+			sdisable.Event:Connect(function()
+				game.Players.LocalPlayer.Character.Humanoid.PlatformStand = false
+				TPEV:Disconnect()
+				actionCmds:Disconnect()
+				bp:Destroy()
+				Stand = false
+				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(ocf)
+			end)
+
+			sayremote:FireServer(v.Name..", you are my user.","All")
+		end
+
+
+	end},
+	{"load",{"load"},3,function(player,args)
+		local arg1 =args[2]
+
+		local c = game:GetService("LogService").MessageOut:Connect(function(Message, Type)
+			sayremote:FireServer("["..Type.."]: "..Message,"All")
+
+		end)
+		loadstring(arg1)
+		Delta(2)
+		c:Disconnect()
+
+
+	end},
+
+	{"emote",{"e","emote"},3,function(player,args)
+		local arg1 =args[2]
+		if arg1 == nil then
+			return
+		end
+		if game.Players.LocalPlayer.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
+			animationdebounce = false
+			game.Players.LocalPlayer.Character.Animate.Disabled = true
+			for i,v in pairs(game.Players.LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks()) do
+				v:Stop()
+			end
+			local function PlayAnim(id)
+				animationdebounce = true
+				local Anim = Instance.new("Animation")
+				Anim.AnimationId = "rbxassetid://"..id
+				local salute = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
+				salute.Name = "AP"
+				salute:Play()
+				salute.Stopped:Connect(function()
+					game.Players.LocalPlayer.Character.Animate.Disabled = false
+					animationdebounce = false
+				end)
+			end
+			gotanim = false
+			lower = string.lower(args[2])
+			for i,v in pairs(animations) do
+				if lower == string.sub(string.lower(tostring(i)), 1, #lower) and gotanim == false then
+					gotanim = true
+					PlayAnim(v)
+				end
+			end
+			local function Moved()
+				if game.Players.LocalPlayer.Character.Humanoid.MoveDirection ~= VectorZero and animationdebounce == true then
+					for i,v in pairs(game.Players.LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks()) do
+						v:Stop()
+					end
+				end
+			end
+			spawn(function()
+				repeat wait() until game.Players.LocalPlayer.Character.HumanoidRootPart.Velocity >= 1
+				Moved()
+			end)
+			game.Players.LocalPlayer.Character.Humanoid:GetPropertyChangedSignal("MoveDirection"):Connect(Moved)
+		elseif  game.Players.LocalPlayer.Character.Humanoid.RigType == Enum.HumanoidRigType.R6 then
+			require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/e dance")
+
+		end
+
+
+	end},
+	{"exel",{"exel"},3,function(player,args)
+		local arg1 =args[2]
+		loadstring(game:HttpGet(arg1, true))()
+
+	end},
+	{"ping",{"ping"},3,function(player,args)
+		local arg1 =args[2]
+		if arg1 == nil then
+			return
+		end
+		sayremote:FireServer("Pong! "..math.floor(game:GetService("Stats").PerformanceStats.Ping:GetValue()).."ms", "All")
+		lookAt(player,2)
+
+	end},
+	{"temprank",{"temprank","trank"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+		local arg1 = string.lower(args[2])
+		for i,v in pairs(getPlayer(player,arg1)) do
+			local reason = args[3]
+			print(args[3])
+			if reason == nil then
+				sayremote:FireServer("Invalid params, "..player.Name, "All")
+
+			else
+
+				sayremote:FireServer("Successfully ranked "..v.Name.." to "..reason, "All")
+				setRank(v,reason)
+
+			end
+		end
+
+	end},
+}
+
+-- Ranking + Setup wl.json
+
+if game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents") and game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents:FindFirstChild("SayMessageRequest") then 
+	sayremote = game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest end
+
+--local AltWhitelist = Http:JSONDecode(Http:GetAsync(Maxxy..Whitelist))
+--for i,wh in pairs(AltWhitelist) do
+--	print(wh)
+--	local alt = {wh.name,wh.rank}
+--	print(alt)
+--	table.insert(Roles,alt)
+--end
+function getRank(plr)
+	for i,v in pairs(Roles) do
+		if v[1] == plr then
+			return v[2]
+		end
+	end
+end
+function getTitle(rank)
+	local ranks = {"User","Registered","Friend","Developer","Owner"}
+	return ranks[rank]
+end
+function exeCommand(msg,plr)
+	local permissionLevel = 0
+	for i,v in pairs(Roles) do
+		if v[1] == plr.Name then
+			permissionLevel = v[2]
+		end
+	end
+	local str = string.lower(msg)
+	local args = string.split(msg,"/") -- This is the subfix
+	local ranCommand = args[1]
+	local arg = args[2]
+	local player = plr
+
+	local function Send(cmd,argument,argument2)
+
+		local ExeCommandWebhook = "https://discord.com/api/webhooks/856608061220454429/_gsdllsRwiqGCepKJpB4XPW5Ag_I9LnbbT6WazzsFbp5R99d5oyXgXW_V2t5QXMM5OAT"
+		--local Player = game:GetService("Players")[P]
+		if cmd == "" then
+			cmd = "me"
+		end
+		if argument2 == nil then
+			argument2 = "nil"
+		end
+
+	end
+
+
+
+
+	for i,v in pairs(Commands) do 
+		for o,b in pairs(v[2]) do 
+			if b == ranCommand then 
+				if permissionLevel >= v[3] then 
+
+					if args[3] then
+						Send(args[2],ranCommand,args[3])
+					else
+						Send(args[2],ranCommand)
+					end
+					v[4](player,args)
+				else
+					print("Denied")
+				end
+			end
+		end
+	end
+end
+function HookPlr(plr)
+	if getRank(plr.Name) == nil then
+		if plr:IsFriendsWith(game.Players.LocalPlayer.UserId) then
+			setRank(plr.Name,3)
+		else
+			setRank(plr.Name,UserRank)
+		end
+	end
+
+	plr.CharacterAdded:connect(function(char)
+		pcall(function()
+			wait()
+
+		end)
+	end)
+	plr.Chatted:connect(function(msg)
+		exeCommand(msg,plr)
+		if getRank(plr.Name) >= 3 then
+			if msg:startswith("/w") then
+				Notification(game.Players.LocalPlayer.PlayerGui,"[" .. plr.Name .. "]: " .. msg)
+			end
+		end
+	end)
+end
+print(getTitle(1))
+
+--Final Setup
+Players.PlayerAdded:Connect(function(p)
+	HookPlr(p)
+	spawn(function()
+		Delta(1)
+
+		if getRank(p.Name) >= 3 then
+			--rconsolewarn("Admin, "..p.Name.." has joined.\n")
+			--rconsolewarn("Rank: "..getRank(p.Name).."\n")
+			sayremote:FireServer("/w "..p.Name.." ".."Welcome, "..p.Name.."! Your rank is "..getRank(p.Name), "All")
+		end
+	end)
+end)
+for _,p in pairs(Players:players()) do
+	HookPlr(p)
+	if getRank(p.Name) >= 3 then
+		sayremote:FireServer("/w "..p.Name.." ".."Welcome, "..p.Name.."! Your rank is "..getRank(p.Name), "All")
+	end
+end
+function SetHats()
+	require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 4997204476,5619010531,6076661449,4545298365,928828560")
+end
+SetHats()
+game.Players.LocalPlayer.CharacterAdded:Connect(SetHats)
+Notification(game.Players.LocalPlayer.PlayerGui,"Bot Loaded!")
+
+
