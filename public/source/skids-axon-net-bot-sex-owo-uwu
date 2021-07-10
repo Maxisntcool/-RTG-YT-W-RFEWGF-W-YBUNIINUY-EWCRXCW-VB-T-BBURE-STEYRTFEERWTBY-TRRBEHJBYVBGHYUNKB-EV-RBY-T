@@ -1015,61 +1015,10 @@ spawn(function()
 	end
 end)
 spawn(function()
-	local CurrentPart = nil
-	local MaxInc = 60
-
-	function onTouched(hit)
-		if hit.Parent == nil then
-			return
-		end
-
-		local humanoid = hit.Parent:findFirstChild("Humanoid")
-
-		if humanoid == nil then
-			CurrentPart = hit
-		end
-	end
-
-	function waitForChild(parent, childName)
-		local child = parent:findFirstChild(childName)
-
-		if child then
-			return child
-		end
-
-		while true do
-			print(childName)
-
-			child = parent.ChildAdded:wait()
-
-			if child.Name==childName then
-				return child
-			end
-		end
-	end
-
-	local Figure = script.Parent
-	local Humanoid = waitForChild(Figure, "Humanoid")
-	local Torso = waitForChild(Figure, "HumanoidRootPart")
-	local Left = waitForChild(Figure, "LeftFoot")
-	local Right = waitForChild(Figure, "RightFoot")
-
-	Humanoid.Jump = true
-
-	Left.Touched:connect(onTouched)
-	Right.Touched:connect(onTouched)
-
-	while true do
+	while true do wait(math.random(5,8))
 		if idle >= 30 then
-			wait(math.random(2, 6))
+			game.Players.LocalPlayer.Character.Humanoid.WalkToPoint = Vector3.new(math.random(-15,15),0,math.random(-15,15))
 
-			if CurrentPart ~= nil then
-				if math.random(5, 7) == 1 then
-					Humanoid.Jump = true
-				end
-
-				Humanoid.WalkToPoint = Torso.Position + Vector3.new(math.random(-MaxInc, MaxInc), 0, math.random(-MaxInc, MaxInc))
-			end
 		end
 	end
 end)
