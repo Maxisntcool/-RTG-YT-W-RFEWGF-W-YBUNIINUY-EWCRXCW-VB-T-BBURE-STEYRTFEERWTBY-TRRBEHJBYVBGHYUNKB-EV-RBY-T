@@ -520,7 +520,7 @@ local Commands = {
 			sayremote:FireServer(v.Name.." is rank "..getRank(v.Name), "All")
 		end
 	end},
-	{"gettitle",{"gettitle","gtitle"},1,function(player,args)
+	{"title",{"title"},1,function(player,args)
 		local arg1 = string.lower(args[2])
 		for i,v in pairs(getPlayer(player,arg1)) do
 			sayremote:FireServer(v.Name.." title is ["..getTitle(getRank(v.Name)).."]", "All")
