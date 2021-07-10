@@ -487,7 +487,7 @@ local Commands = {
 	{"reload",{"reload","rejoin"},3,function(player,args)
 		local arg1 = string.lower(args[2])
 		sayremote:FireServer("Reloading bot!", "All")
-game:GetService("TeleportService"):Teleport(game.PlaceId,game.Players.LocalPlayer)
+		game:GetService("TeleportService"):Teleport(game.PlaceId,game.Players.LocalPlayer)
 	end},
 	{"follow",{"follow"},3,function(player,args)
 		if following == true then
@@ -995,7 +995,7 @@ for _,p in pairs(Players:players()) do
 end
 function SetPlayer()
 	require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 4997204476,5619010531,6076661449,4545298365,928828560")
-	
+
 end
 SetPlayer()
 function noclip()
@@ -1004,7 +1004,7 @@ function noclip()
 			child.CanCollide = false
 		end
 	end
-	
+
 end
 
 
@@ -1012,6 +1012,8 @@ spawn(function()
 	while true do wait(1)
 		idle = idle +1
 	end
+end)
+spawn(function()
 	local CurrentPart = nil
 	local MaxInc = 180
 
@@ -1056,15 +1058,17 @@ spawn(function()
 	Left.Touched:connect(onTouched)
 	Right.Touched:connect(onTouched)
 
-	while idle >= 30 do
-		wait(math.random(2, 6))
+	while true do
+		if idle >= 30 then
+			wait(math.random(2, 6))
 
-		if CurrentPart ~= nil then
-			if math.random(5, 7) == 1 then
-				Humanoid.Jump = true
+			if CurrentPart ~= nil then
+				if math.random(5, 7) == 1 then
+					Humanoid.Jump = true
+				end
+
+				Humanoid:MoveTo(Torso.Position + Vector3.new(math.random(-MaxInc, MaxInc), 0, math.random(-MaxInc, MaxInc)), CurrentPart)
 			end
-
-			Humanoid:MoveTo(Torso.Position + Vector3.new(math.random(-MaxInc, MaxInc), 0, math.random(-MaxInc, MaxInc)), CurrentPart)
 		end
 	end
 end)
