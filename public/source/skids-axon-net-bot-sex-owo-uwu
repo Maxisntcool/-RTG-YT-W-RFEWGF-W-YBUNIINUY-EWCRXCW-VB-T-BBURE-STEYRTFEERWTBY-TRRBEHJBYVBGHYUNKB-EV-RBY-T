@@ -513,7 +513,7 @@ game:GetService("TeleportService"):Teleport(game.PlaceId,game.Players.LocalPlaye
 		for i,v in pairs(getPlayer(player,arg1)) do
 
 
-			sayremote:FireServer(string.format("%s has %s RAP",v.Name,GetTotalRAP(game.Players:GetUserIdFromNameAsync(v.Name))), "All")
+			sayremote:FireServer(string.format("%s has %s RAP",v.Name,GetTotalRAP(v)), "All")
 
 
 		end
