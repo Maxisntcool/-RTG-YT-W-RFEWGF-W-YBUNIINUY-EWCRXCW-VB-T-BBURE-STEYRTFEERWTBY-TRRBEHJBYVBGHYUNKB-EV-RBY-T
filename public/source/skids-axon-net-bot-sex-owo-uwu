@@ -8,7 +8,7 @@ local Maxxy = "https://maxxy.ga/source/"
 local GlobalBans = "ban.json"
 local Whitelist = "wl.json"
 local MChildren = {}
-----
+
 --Functions
 function GetPlayer(name)
 	for _,player in next, Players:players() do
@@ -480,6 +480,11 @@ local Commands = {
 		for i,v in pairs(getPlayer(player,arg1)) do
 			game.Players.LocalPlayer.Character.Humanoid.WalkToPoint = v.Character.HumanoidRootPart.Position - Vector3.new(5,0,0)
 		end
+	end},
+	{"reload",{"reload","rejoin"},3,function(player,args)
+		local arg1 = string.lower(args[2])
+		sayremote:FireServer("Reloading bot!", "All")
+game:GetService("TeleportService"):Teleport(game.PlaceId,game.Players.LocalPlayer)
 	end},
 	{"follow",{"follow"},3,function(player,args)
 		if following == true then
