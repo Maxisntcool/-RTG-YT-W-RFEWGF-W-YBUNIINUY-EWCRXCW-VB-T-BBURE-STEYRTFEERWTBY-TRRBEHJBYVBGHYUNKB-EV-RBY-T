@@ -355,6 +355,9 @@ animations = {
 	["Take Me Under - Zara Larsson"] = 6797890377;
 	["It Ain't My Fault - Zara Larsson"] = 6797891807;
 	["Hips Poppin' - Zara Larsson"] = 6797888062;
+	["Cha Cha"] = 6865013133;
+	["Samba"] = 6869813008;
+	["Block Partier"] = 6865011755;
 }
 --
 local Roles = {
