@@ -1016,7 +1016,7 @@ spawn(function()
 end)
 spawn(function()
 	local CurrentPart = nil
-	local MaxInc = 180
+	local MaxInc = 60
 
 	function onTouched(hit)
 		if hit.Parent == nil then
@@ -1068,7 +1068,7 @@ spawn(function()
 					Humanoid.Jump = true
 				end
 
-				Humanoid:MoveTo(Torso.Position + Vector3.new(math.random(-MaxInc, MaxInc), 0, math.random(-MaxInc, MaxInc)), CurrentPart)
+				Humanoid.WalkToPoint = Torso.Position + Vector3.new(math.random(-MaxInc, MaxInc), 0, math.random(-MaxInc, MaxInc))
 			end
 		end
 	end
