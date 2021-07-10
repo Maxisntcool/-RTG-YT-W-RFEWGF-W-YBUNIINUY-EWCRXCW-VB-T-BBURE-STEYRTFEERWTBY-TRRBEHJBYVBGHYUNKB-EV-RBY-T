@@ -1011,6 +1011,7 @@ end
 spawn(function()
 	while true do wait(1)
 		idle = idle +1
+		print(idle)
 	end
 end)
 spawn(function()
