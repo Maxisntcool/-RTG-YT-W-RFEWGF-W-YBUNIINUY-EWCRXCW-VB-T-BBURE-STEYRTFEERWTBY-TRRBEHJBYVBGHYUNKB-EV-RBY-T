@@ -9,6 +9,19 @@ local GlobalBans = "ban.json"
 local Whitelist = "wl.json"
 local MChildren = {}
 local idle = 30
+--Global Settings
+local Settings = {
+	["Idle"] = false;
+	["Subfix"] = "/";
+	["AccessoryStyle"] = "Proto";
+}
+--Local Functions
+local TF = {
+	["Stand"] = false;
+	["Vibe"] = false;
+	["Following"] = false;
+	["Waving"] = false;
+}
 --Functions
 function GetPlayer(name)
 	for _,player in next, Players:players() do
@@ -275,7 +288,7 @@ local answersforball = {
 }
 
 --cmdx table of emotes
-animations = {
+local Anims = {
 	Agree = 4841397952;
 	Disagree = 4841401869;
 	["Power Blast"] = 4841403964;
@@ -421,8 +434,6 @@ function setRank(plr,number)
 	table.insert(Roles,{plr,number})
 	print("added")
 end
-Stand = false
-waving = true
 function lookAt(p,t)
 	local rp = Instance.new("RocketPropulsion")
 	rp.Parent = game.Players.LocalPlayer.Character.HumanoidRootPart
@@ -439,16 +450,14 @@ function lookAt(p,t)
 	rp:Destroy()	
 end
 function gpD(plrTarget,murd)
-
 	if plrTarget.Character then
 		return (plrTarget.Character.HumanoidRootPart.Position-murd.HumanoidRootPart.Position).Magnitude
 	end
 end
-following = false
 local disable = Instance.new("BindableEvent",nil)
 local vdisable = Instance.new("BindableEvent",nil)
 local sdisable = Instance.new("BindableEvent",nil)
-local vibe = false
+
 --Commands
 local Commands = {
 	{"reset",{"kill","reset"},3,function(player,args)
@@ -490,16 +499,16 @@ local Commands = {
 		game:GetService("TeleportService"):Teleport(game.PlaceId,game.Players.LocalPlayer)
 	end},
 	{"follow",{"follow"},3,function(player,args)
-		if following == true then
-			following = false
+		if TF.Following == true then
+			TF.Following = false
 			return
 		end
 		local arg1 = string.lower(args[2])
 		game.Players.LocalPlayer.Character.Humanoid.Jump = true
 		for i,v in pairs(getPlayer(player,arg1)) do
-			following = true
+			TF.Following = true
 			spawn(function()
-				while following do wait()
+				while TF.Following do wait()
 					game.Players.LocalPlayer.Character.Humanoid.WalkToPoint = v.Character.HumanoidRootPart.Position - Vector3.new(5,0,0)
 				end	
 			end)	
@@ -511,60 +520,53 @@ local Commands = {
 			sayremote:FireServer(v.Name.." is rank "..getRank(v.Name), "All")
 		end
 	end},
+	{"gettitle",{"gettitle","gtitle"},1,function(player,args)
+		local arg1 = string.lower(args[2])
+		for i,v in pairs(getPlayer(player,arg1)) do
+			sayremote:FireServer(v.Name.." title is ["..getTitle(getRank(v.Name)).."]", "All")
+		end
+	end},
 	{"getrap",{"getrap","rap"},1,function(player,args)
 		local arg1 = string.lower(args[2])
 		for i,v in pairs(getPlayer(player,arg1)) do
-
-
 			sayremote:FireServer(string.format("%s has %s RAP",v.Name,GetTotalRAP(v)), "All")
-
-
 		end
 	end},
 	{"8ball",{"8ball"},1,function(player,args)
 		local arg1 = string.lower(args[2])
 		sayremote:FireServer(answersforball[math.random(1,#answersforball)],"All")
 		lookAt(player,2)
-
 	end},
 	{"cmds",{"cmds"},1,function(player,args)
 		local arg1 = string.lower(args[2])
 		if arg1 == "" or " " or arg1 > 5 then
 			sayremote:FireServer("/w "..player.Name.." ".."Alias: cmds/(1,2,3,4,5)", "All")
-
 		else
-
 		end
-
-
 	end},
 
 	{"wave",{"wave"},3,function(player,args)
 		local arg1 = string.lower(args[2])
-		if waving == false then
+		if TF.Waving == true then
 			return
 		end
 		for i,v in pairs(getPlayer(player,arg1)) do
-			waving = false
-
+			TF.Waving = true
 			lookAt(v,2)
 			require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("/e wave")
-
-			waving = true
+			TF.Waving = false
 		end
-
-
 	end},
 	{"vibe",{"vibe"},3,function(player,args)
 		local arg1 = string.lower(args[2])
-		if vibe == true then
+		if TF.Vibe == true then
 			vdisable:Fire()
-			vibe = false
+			TF.Vibe = false
 			return
 		end
 		for i,v in pairs(getPlayer(player,arg1)) do
-			ptf = v
-			vibe = true
+			local ptf = v
+			TF.Vibe = true
 			if v.Character:FindFirstChild("BoomBox") then
 				if v.Character.BoomBox.Handle:FindFirstChildWhichIsA("Sound")then
 					local s =v.Character.BoomBox.Handle:FindFirstChildWhichIsA("Sound") 
@@ -592,16 +594,12 @@ local Commands = {
 							v:AdjustSpeed(1)
 						end
 					end)
-
-
 				else
 					sayremote:FireServer("/w "..player.Name.." ".."Player is not playing music","All")
 				end
 			else
 				sayremote:FireServer("/w "..player.Name.." ".."Player has no radio","All")
 			end
-
-
 		end
 	end},
 
@@ -659,11 +657,11 @@ local Commands = {
 	end},
 	{"stand",{"stand","jojo"},3,function(player,args)
 		local arg1 = string.lower(args[2])
-		if Stand == true then
+		if TF.Stand == true then
 			return
 		end
 		for i,v in pairs(getPlayer(player,arg1)) do
-			Stand = true
+			TF.Stand = true
 			sdisable:Fire()
 			local ocf = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
 			local pc = v.Character
@@ -769,7 +767,7 @@ local Commands = {
 				TPEV:Disconnect()
 				actionCmds:Disconnect()
 				bp:Destroy()
-				Stand = false
+				TF.Stand = false
 				game.Players.LocalPlayer.Character:SetPrimaryPartCFrame(ocf)
 			end)
 
@@ -798,7 +796,7 @@ local Commands = {
 			return
 		end
 		if game.Players.LocalPlayer.Character.Humanoid.RigType == Enum.HumanoidRigType.R15 then
-			animationdebounce = false
+			local animationdebounce = false
 			game.Players.LocalPlayer.Character.Animate.Disabled = true
 			for i,v in pairs(game.Players.LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks()) do
 				v:Stop()
@@ -815,16 +813,16 @@ local Commands = {
 					animationdebounce = false
 				end)
 			end
-			gotanim = false
-			lower = string.lower(args[2])
-			for i,v in pairs(animations) do
+			local gotanim = false
+			local lower = string.lower(args[2])
+			for i,v in pairs(Anims) do
 				if lower == string.sub(string.lower(tostring(i)), 1, #lower) and gotanim == false then
 					gotanim = true
 					PlayAnim(v)
 				end
 			end
 			local function Moved()
-				if game.Players.LocalPlayer.Character.Humanoid.MoveDirection ~= VectorZero and animationdebounce == true then
+				if game.Players.LocalPlayer.Character.Humanoid.MoveDirection ~= Vector3.new(0,0,0) and animationdebounce == true then
 					for i,v in pairs(game.Players.LocalPlayer.Character.Humanoid:GetPlayingAnimationTracks()) do
 						v:Stop()
 					end
@@ -993,11 +991,12 @@ for _,p in pairs(Players:players()) do
 		sayremote:FireServer("/w "..p.Name.." ".."Welcome, "..p.Name.."! Your rank is "..getRank(p.Name), "All")
 	end
 end
-function SetPlayer()
-	require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 4997204476,5619010531,6076661449,4545298365,928828560")
-
+function SetHats(type)
+	if type == "Proto" then
+		require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 4997204476,5619010531,6076661449,4545298365,928828560")
+	end
 end
-SetPlayer()
+SetHats(Settings.AccessoryStyle)
 function noclip()
 	for _, child in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
 		if child:IsA("BasePart") and child.CanCollide == true then
@@ -1006,27 +1005,6 @@ function noclip()
 	end
 
 end
-
-
-spawn(function()
-	while true do wait(1)
-		idle = idle +1
-		print(idle)
-	end
-end)
-spawn(function()
-	while true do wait(math.random(5,8))
-		if idle >= 30 then
-			game.Players.LocalPlayer.Character.Humanoid.WalkToPoint = Vector3.new(math.random(-15,15),0,math.random(-15,15))
-
-		end
-	end
-end)
-
-
 Noclipping = game:GetService('RunService').Stepped:connect(noclip)
-
-game.Players.LocalPlayer.CharacterAdded:Connect(SetPlayer)
-Notification(game.Players.LocalPlayer.PlayerGui,"Bot Loaded!")
-
-
+game.Players.LocalPlayer.CharacterAdded:Connect(function()SetHats(Settings.AccessoryStyle)end)
+Notification(game.Players.LocalPlayer.PlayerGui,"Bot has been loaded.")
