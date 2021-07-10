@@ -8,7 +8,7 @@ local Maxxy = "https://maxxy.ga/source/"
 local GlobalBans = "ban.json"
 local Whitelist = "wl.json"
 local MChildren = {}
-
+local idle = 30
 --Functions
 function GetPlayer(name)
 	for _,player in next, Players:players() do
@@ -935,8 +935,10 @@ function exeCommand(msg,plr)
 
 					if args[3] then
 						Send(args[2],ranCommand,args[3])
+						idle = 0
 					else
 						Send(args[2],ranCommand)
+						idle = 0
 					end
 					v[4](player,args)
 				else
@@ -1004,6 +1006,70 @@ function noclip()
 	end
 	
 end
+
+
+spawn(function()
+	while true do wait(1)
+		idle = idle +1
+	end
+	local CurrentPart = nil
+	local MaxInc = 180
+
+	function onTouched(hit)
+		if hit.Parent == nil then
+			return
+		end
+
+		local humanoid = hit.Parent:findFirstChild("Humanoid")
+
+		if humanoid == nil then
+			CurrentPart = hit
+		end
+	end
+
+	function waitForChild(parent, childName)
+		local child = parent:findFirstChild(childName)
+
+		if child then
+			return child
+		end
+
+		while true do
+			print(childName)
+
+			child = parent.ChildAdded:wait()
+
+			if child.Name==childName then
+				return child
+			end
+		end
+	end
+
+	local Figure = script.Parent
+	local Humanoid = waitForChild(Figure, "Humanoid")
+	local Torso = waitForChild(Figure, "HumanoidRootPart")
+	local Left = waitForChild(Figure, "LeftFoot")
+	local Right = waitForChild(Figure, "RightFoot")
+
+	Humanoid.Jump = true
+
+	Left.Touched:connect(onTouched)
+	Right.Touched:connect(onTouched)
+
+	while idle >= 30 do
+		wait(math.random(2, 6))
+
+		if CurrentPart ~= nil then
+			if math.random(5, 7) == 1 then
+				Humanoid.Jump = true
+			end
+
+			Humanoid:MoveTo(Torso.Position + Vector3.new(math.random(-MaxInc, MaxInc), 0, math.random(-MaxInc, MaxInc)), CurrentPart)
+		end
+	end
+end)
+
+
 Noclipping = game:GetService('RunService').Stepped:connect(noclip)
 
 game.Players.LocalPlayer.CharacterAdded:Connect(SetPlayer)
