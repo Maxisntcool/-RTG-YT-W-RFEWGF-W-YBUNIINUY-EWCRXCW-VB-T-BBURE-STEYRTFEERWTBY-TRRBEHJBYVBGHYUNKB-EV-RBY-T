@@ -991,10 +991,16 @@ for _,p in pairs(Players:players()) do
 		sayremote:FireServer("/w "..p.Name.." ".."Welcome, "..p.Name.."! Your rank is "..getRank(p.Name), "All")
 	end
 end
-function SetHats(type)
-	if type == "Proto" then
+HatType = {
+	["Proto"] = {
 		require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 4997204476,5619010531,6076661449,4545298365,928828560")
-	end
+	},
+	["Crystal"] = {
+		5875859121,5875863133,7062200002,5875865466,6036768896
+	}
+}
+function SetHats(type)
+HatType[type]()
 end
 SetHats(Settings.AccessoryStyle)
 game.Players.LocalPlayer.CharacterAdded:Connect(function()SetHats(Settings.AccessoryStyle)end)
