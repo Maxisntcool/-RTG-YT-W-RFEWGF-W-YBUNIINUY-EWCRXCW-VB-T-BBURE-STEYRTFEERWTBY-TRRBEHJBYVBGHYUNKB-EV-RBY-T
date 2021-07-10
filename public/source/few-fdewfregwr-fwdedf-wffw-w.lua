@@ -8,7 +8,7 @@ local Maxxy = "https://maxxy.ga/source/"
 local GlobalBans = "ban.json"
 local Whitelist = "wl.json"
 local MChildren = {}
-
+--
 --Functions
 function GetPlayer(name)
 	for _,player in next, Players:players() do
