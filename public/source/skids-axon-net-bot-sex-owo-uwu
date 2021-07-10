@@ -997,14 +997,5 @@ function SetHats(type)
 	end
 end
 SetHats(Settings.AccessoryStyle)
-function noclip()
-	for _, child in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
-		if child:IsA("BasePart") and child.CanCollide == true then
-			child.CanCollide = false
-		end
-	end
-
-end
-Noclipping = game:GetService('RunService').Stepped:connect(noclip)
 game.Players.LocalPlayer.CharacterAdded:Connect(function()SetHats(Settings.AccessoryStyle)end)
 Notification(game.Players.LocalPlayer.PlayerGui,"Bot has been loaded.")
