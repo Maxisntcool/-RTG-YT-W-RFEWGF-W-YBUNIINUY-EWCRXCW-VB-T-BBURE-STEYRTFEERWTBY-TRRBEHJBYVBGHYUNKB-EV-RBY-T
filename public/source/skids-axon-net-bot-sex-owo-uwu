@@ -13,7 +13,7 @@ local idle = 30
 local Settings = {
 	["Idle"] = false;
 	["Subfix"] = "/";
-	["AccessoryStyle"] = "Proto";
+	["AccessoryStyle"] = "Crystal";
 }
 --Local Functions
 local TF = {
@@ -996,7 +996,7 @@ HatType = {
 		require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 4997204476,5619010531,6076661449,4545298365,928828560")
 	},
 	["Crystal"] = {
-		5875859121,5875863133,7062200002,5875865466,6036768896
+		require(game.Players.LocalPlayer.PlayerScripts.ChatScript.ChatMain).MessagePosted:fire("-gh 5875859121,5875863133,7062200002,5875865466,6036768896")	
 	}
 }
 function SetHats(type)
